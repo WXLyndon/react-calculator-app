@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import ContentBase from "./ContentBase";
 
 class Login extends Component {
   state = {};
   render() {
-    return <h1>Login</h1>;
+    return <ContentBase>Login</ContentBase>;
   }
 }
 

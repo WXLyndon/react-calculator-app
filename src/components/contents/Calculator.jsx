@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import ContentBase from "./ContentBase";
 
 class Calculator extends Component {
   state = {};
   render() {
-    return <h1>Calculator</h1>;
+    return <ContentBase>Calculator</ContentBase>;
   }
 }
 
