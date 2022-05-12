@@ -8,7 +8,7 @@ class Navbar extends Component {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            Lyndon's React App
+            Lyndon's Calculator App
           </Link>
           <button
             className="navbar-toggler"
