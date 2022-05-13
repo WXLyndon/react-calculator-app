@@ -1,5 +1,27 @@
 import ACTIONS from "./actions";
 
+const evaluate = (state) => {
+  let { lastOperand, currentOperand, operation } = state;
+  let last = parseFloat(lastOperand);
+  let current = parseFloat(currentOperand);
+
+  let res = "";
+  switch (operation) {
+    case "+":
+      res = last + current;
+      break;
+    case "-":
+      res = last - current;
+      break;
+    case "×":
+      res = last * current;
+      break;
+    case "÷":
+      res = last / current;
+  }
+  return res.toString();
+};
+
 const reducer = (
   state = {
     currentOperand: "",
@@ -47,6 +69,34 @@ const reducer = (
           currentOperand: state.currentOperand.slice(0, -1),
         };
       }
+
+    case ACTIONS.CHOOSE_OPERATION:
+      // If the current and the last operand are both empty, the state should remain unchanged.
+      if (state.currentOperand === "" && state.lastOperand === "") {
+        return state;
+      }
+      // If the last operand is empty, the last operand should be the current operand.
+      if (state.lastOperand === "") {
+        return {
+          ...state,
+          lastOperand: state.currentOperand,
+          currentOperand: "",
+          operation: action.operation,
+        };
+      }
+      // If the current operand is empty, just change the operation.
+      if (state.currentOperand === "") {
+        return {
+          ...state,
+          operation: action.operation,
+        };
+      }
+      return {
+        ...state,
+        lastOperand: evaluate(state),
+        operation: action.operation,
+        currentOperand: "",
+      };
     default:
       return state;
   }
