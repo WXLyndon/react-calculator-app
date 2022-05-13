@@ -36,7 +36,9 @@ class Calculator extends Component {
           <OperationButton operation={"+"} />
           <DigitButton digit={"0"} />
           <DigitButton digit={"."} />
-          <button className="button-equal">=</button>
+          <button className="button-equal" onClick={this.props.evaluate}>
+            =
+          </button>
         </div>
       </ContentBase>
     );
@@ -57,6 +59,9 @@ const mapDispatchToProps = {
   },
   clear: () => {
     return { type: ACTIONS.CLEAR_ALL };
+  },
+  evaluate: () => {
+    return { type: ACTIONS.EVALUATE };
   },
 };
 

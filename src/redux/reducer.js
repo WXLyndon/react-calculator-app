@@ -18,6 +18,9 @@ const evaluate = (state) => {
       break;
     case "÷":
       res = last / current;
+      break;
+    default:
+      res = "";
   }
   return res.toString();
 };
@@ -27,11 +30,19 @@ const reducer = (
     currentOperand: "",
     lastOperand: "",
     operation: "",
+    overwrite: false,
   },
   action
 ) => {
   switch (action.type) {
     case ACTIONS.ADD_DIGIT:
+      if (state.overwrite) {
+        return {
+          ...state,
+          currentOperand: action.digit,
+          overwrite: false,
+        };
+      }
       // The current operand can have only one leading zero.
       if (state.currentOperand === "0" && action.digit === "0") {
         return state;
@@ -60,6 +71,13 @@ const reducer = (
       };
 
     case ACTIONS.DELETE_DIGIT:
+      if (state.overwrite) {
+        return {
+          ...state,
+          currentOperand: "",
+          overwrite: false,
+        };
+      }
       // If the current operand is empty, the state should remain unchanged.
       if (state.currentOperand === "") {
         return state;
@@ -106,6 +124,23 @@ const reducer = (
         currentOperand: "",
         lastOperand: "",
         operation: "",
+      };
+
+    case ACTIONS.EVALUATE:
+      // If either the current operand or the last operand or the operation are empty, the state should remain unchanged.
+      if (
+        state.currentOperand === "" ||
+        state.lastOperand === "" ||
+        state.operation === ""
+      ) {
+        return state;
+      }
+      return {
+        ...state,
+        currentOperand: evaluate(state),
+        lastOperand: "",
+        operation: "",
+        overwrite: true,
       };
     default:
       return state;
