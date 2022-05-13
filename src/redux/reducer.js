@@ -36,6 +36,17 @@ const reducer = (
         ...state,
         currentOperand: state.currentOperand + action.digit,
       };
+
+    case ACTIONS.DELETE_DIGIT:
+      // If the current operand is empty, the state should remain unchanged.
+      if (state.currentOperand === "") {
+        return state;
+      } else {
+        return {
+          ...state,
+          currentOperand: state.currentOperand.slice(0, -1),
+        };
+      }
     default:
       return state;
   }
