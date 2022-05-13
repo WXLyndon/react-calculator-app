@@ -91,11 +91,21 @@ const reducer = (
           operation: action.operation,
         };
       }
+      // If the current operand, the last operand and the operation are not empty, and the new operation is input,
+      // then the last operand should be evaluated from the current state.
       return {
         ...state,
         lastOperand: evaluate(state),
         operation: action.operation,
         currentOperand: "",
+      };
+
+    case ACTIONS.CLEAR_ALL:
+      return {
+        ...state,
+        currentOperand: "",
+        lastOperand: "",
+        operation: "",
       };
     default:
       return state;
